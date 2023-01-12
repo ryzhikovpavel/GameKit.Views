@@ -5,7 +5,7 @@ using UnityEngine;
 namespace GameKit.Views.Components
 {
     [PublicAPI]
-    public abstract class ViewComponent : MonoBehaviour
+    public abstract class ViewComponent : MonoBehaviour, IViewComponent
     {
         public IViewAnimator Animator { get; private set; }
         public abstract bool Interactable { get; set; }
