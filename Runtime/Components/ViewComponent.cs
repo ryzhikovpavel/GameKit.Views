@@ -9,7 +9,7 @@ namespace GameKit.Views.Components
     {
         public IViewAnimator Animator { get; private set; }
         public abstract bool Interactable { get; set; }
-        public virtual bool IsDisplayed => gameObject.activeSelf;
+        public virtual bool IsDisplayed => this != null && gameObject.activeSelf;
 
         internal virtual void Initialize()
         {
