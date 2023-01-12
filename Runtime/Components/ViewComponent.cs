@@ -32,6 +32,7 @@ namespace GameKit.Views.Components
 
         public void Release()
         {
+            if (this == null) return;
             if (IsDisplayed)
             {
                 OnHide();
