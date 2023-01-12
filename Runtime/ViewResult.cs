@@ -16,6 +16,7 @@ namespace GameKit.Views
 
         public async Task<T> Wait(ViewComponent view)
         {
+            _isCompleted = false;
             while (_isCompleted == false && view.IsDisplayed)
             {
                 await Task.Yield();
