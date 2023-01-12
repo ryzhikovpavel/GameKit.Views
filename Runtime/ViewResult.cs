@@ -5,8 +5,10 @@ namespace GameKit.Views
 {
     public class ViewResult<T>
     {
+        private readonly ViewComponent _view;
         private T _result;
         private bool _isCompleted;
+
 
         public void Complete(T result)
         {
@@ -14,14 +16,19 @@ namespace GameKit.Views
             _isCompleted = true;
         }
 
-        public async Task<T> Wait(ViewComponent view)
+        public async Task<T> Wait()
         {
             _isCompleted = false;
-            while (_isCompleted == false && view.IsDisplayed)
+            while (_isCompleted == false && _view.IsDisplayed)
             {
                 await Task.Yield();
             }
             return _result;
+        }
+
+        public ViewResult(ViewComponent view)
+        {
+            _view = view;
         }
     }
 }
