@@ -30,12 +30,26 @@ namespace GameKit.Views.Components
             Animator.PlayHide(gameObject.HideObject);
         }
 
+        public void Release()
+        {
+            if (IsDisplayed)
+            {
+                OnHide();
+                Interactable = false;
+                Animator.PlayHide(gameObject.PushToPool);
+                return;
+            }
+            gameObject.PushToPool();
+        }
+
         protected virtual void OnDisplayed()
         {
             Interactable = true;
         }
 
         protected virtual void OnHide() { }
-        public virtual void OnRelease() { }
+        protected virtual void OnRelease() { }
+
+        internal void FireOnRelease() => OnRelease();
     }
 }

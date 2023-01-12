@@ -41,7 +41,8 @@ namespace GameKit.Views.Core
 
         private void ResetView(ViewComponent view)
         {
-            view.OnRelease();
+            if (view.IsDisplayed) view.HideObject();
+            view.FireOnRelease();
         }
 
         private IPool<ViewComponent> CreatePool(ViewComponent prefab)
