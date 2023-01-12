@@ -25,6 +25,7 @@ namespace GameKit.Views.Components
 
         public void Hide()
         {
+            if (IsDisplayed == false) return;
             OnHide();
             Interactable = false;
             Animator.PlayHide(gameObject.HideObject);
