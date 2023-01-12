@@ -8,7 +8,7 @@ namespace GameKit.Views.Components
 {
     [PublicAPI]
     [RequireComponent(typeof(Canvas))]
-    public abstract class ViewUiComponent : ViewComponent
+    public abstract class CanvasViewComponent : ViewComponent
     {
         private Canvas _canvas;
         private GameObject _block;
@@ -69,7 +69,7 @@ namespace GameKit.Views.Components
             canvas.renderMode = RenderMode.ScreenSpaceOverlay;
             AddScalerIfNotExist();
             AddRaycasterIfNotExist();
-            gameObject.AddComponent<UiFadeViewAnimator>();
+            gameObject.AddComponent<CanvasFadeViewAnimator>();
 
             var layer = SortingLayer.NameToID("UI");
             canvas.overrideSorting = SortingLayer.IsValid(layer);

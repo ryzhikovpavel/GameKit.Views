@@ -5,7 +5,7 @@ using UnityEngine;
 namespace GameKit.Views.Animators
 {
     [RequireComponent(typeof(CanvasGroup))]
-    public class UiFadeViewAnimator : MonoBehaviour, IViewAnimator
+    public class CanvasFadeViewAnimator : MonoBehaviour, IViewAnimator
     {
         [Range(0f, 5f), SerializeField] private float showDuration = 0.2f;
         [Range(0f, 5f), SerializeField] private float hideDuration = 0.2f;
