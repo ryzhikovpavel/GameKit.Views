@@ -29,10 +29,12 @@ namespace GameKit.Views.Core
                 }
                 
                 if (view.IsPulled) continue;
+                view.IsPulled = true;
                 return view;
             }
 
             var newView = InstantiateView();
+            newView.IsPulled = true;
             _instances.Add(newView);
             return newView;
         }

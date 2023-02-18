@@ -56,6 +56,7 @@ namespace GameKit.Views.Components
         {
             IsPulled = false;
             OnRelease();
+            HideObject();
         }
 
         protected virtual void OnDisplayed()
