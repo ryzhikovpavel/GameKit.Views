@@ -11,6 +11,8 @@ namespace GameKit.Views.Components
         public abstract bool Interactable { get; set; }
         public virtual bool IsDisplayed => this != null && gameObject.activeSelf;
 
+        internal bool IsPulled;
+        
         internal virtual void Initialize()
         {
             Animator = GetComponent<IViewAnimator>() ?? new DummyViewAnimator();
@@ -38,10 +40,17 @@ namespace GameKit.Views.Components
             {
                 OnHide();
                 Interactable = false;
-                Animator.PlayHide(gameObject.PushToPool);
+                Animator.PlayHide(PushToPool);
                 return;
             }
-            gameObject.PushToPool();
+
+            PushToPool();
+        }
+
+        private void PushToPool()
+        {
+            IsPulled = false;
+            OnRelease();
         }
 
         protected virtual void OnDisplayed()
@@ -51,7 +60,5 @@ namespace GameKit.Views.Components
 
         protected virtual void OnHide() { }
         protected virtual void OnRelease() { }
-
-        internal void FireOnRelease() => OnRelease();
     }
 }

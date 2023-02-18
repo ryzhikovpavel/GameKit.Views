@@ -18,9 +18,10 @@ namespace GameKit.Views
         {
             while (view.IsDisplayed)
             {
-                await Task.Yield();
                 token.ThrowIfCancellationRequested();
+                await Task.Yield();
             }
+            token.ThrowIfCancellationRequested();
             return view.Result;
         }
     }

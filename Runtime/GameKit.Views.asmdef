@@ -1,9 +1,7 @@
 {
     "name": "GameKit.Views",
     "rootNamespace": "GameKit.Views",
-    "references": [
-        "GUID:71bd82c468b17a8418f073a8ee4436aa"
-    ],
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

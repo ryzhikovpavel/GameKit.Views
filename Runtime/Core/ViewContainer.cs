@@ -1,16 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using GameKit.Implementation;
 using GameKit.Views.Components;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace GameKit.Views.Core
 {
     public class ViewContainer: IViewContainer
     {
-        private readonly Dictionary<Type, IPool<ViewComponent>> _views = new();
+        private readonly Dictionary<Type, ViewPool> _views = new();
         private readonly IViewLoader _loader;
         
         public bool IsLoading => _loader.IsLoading;
@@ -22,6 +20,7 @@ namespace GameKit.Views.Core
 
         public TView Create<TView>() where TView : ViewComponent
         {
+            if (Application.isPlaying == false) throw new Exception("Application is not running");
             if (_views.TryGetValue(typeof(TView), out var pool)) return pool.Pull() as TView;
             _views[typeof(TView)] = pool = CreatePool(_loader.Load<TView>());
             return pool.Pull() as TView;
@@ -36,36 +35,13 @@ namespace GameKit.Views.Core
         {
             if (_views.ContainsKey(typeof(TView))) return;
             var prefab = await _loader.LoadAsync<TView>();
+            if (_views.ContainsKey(typeof(TView))) return;
             _views[typeof(TView)] = CreatePool(prefab);
         }
 
-        private void ResetView(ViewComponent view)
+        private ViewPool CreatePool(ViewComponent prefab)
         {
-            if (view.IsDisplayed) view.HideObject();
-            view.FireOnRelease();
-        }
-
-        private IPool<ViewComponent> CreatePool(ViewComponent prefab)
-        {
-            return Pool.Build(() => InstantiateView(prefab.gameObject), ResetView);
-        }
-
-        private ViewComponent InstantiateView(GameObject prefab)
-        {
-            if (prefab == null)
-                throw new Exception($"Prefab not found");
-
-            prefab.SetActive(false);
-            GameObject obj = Object.Instantiate(prefab);
-            
-#if UNITY_EDITOR
-            prefab.SetActive(true);
-#endif
-            ViewComponent view = obj.GetComponent<ViewComponent>();
-            view.name = view.GetType().Name;
-            view.Initialize();
-
-            return view;
+            return new ViewPool(prefab);
         }
 
         private void CheckError(Task task)
