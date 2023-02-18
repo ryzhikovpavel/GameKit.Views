@@ -52,7 +52,7 @@ namespace GameKit.Views.Components
             rt.offsetMin = new Vector2(0, 0);
             rt.offsetMax = new Vector2(0, 0);
             rt.SetAsFirstSibling();
-            img.SetActive(false);
+            img.gameObject.SetActive(false);
         }
         
         protected virtual void Reset()

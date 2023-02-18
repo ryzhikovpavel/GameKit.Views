@@ -30,7 +30,7 @@ namespace GameKit.Views.Components
             if (IsDisplayed == false) return;
             OnHide();
             Interactable = false;
-            Animator.PlayHide(gameObject.HideObject);
+            Animator.PlayHide(HideObject);
         }
 
         public void Release()
@@ -47,6 +47,11 @@ namespace GameKit.Views.Components
             PushToPool();
         }
 
+        protected internal void HideObject()
+        {
+            gameObject.SetActive(false);
+        }
+        
         private void PushToPool()
         {
             IsPulled = false;
