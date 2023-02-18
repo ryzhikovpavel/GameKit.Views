@@ -13,7 +13,7 @@ namespace GameKit.Views.Components
 
         internal bool IsPulled;
         
-        internal virtual void Initialize()
+        protected virtual void Awake()
         {
             Animator = GetComponent<IViewAnimator>() ?? new DummyViewAnimator();
         }

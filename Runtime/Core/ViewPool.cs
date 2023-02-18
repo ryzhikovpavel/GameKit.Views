@@ -51,8 +51,6 @@ namespace GameKit.Views.Core
             
             ViewComponent view = obj.GetComponent<ViewComponent>();
             view.name = view.GetType().Name;
-            view.Initialize();
-
             return view;
         }
     }

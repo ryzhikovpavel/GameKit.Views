@@ -30,11 +30,11 @@ namespace GameKit.Views.Components
                 else
                     _block.transform.SetAsLastSibling();
             }
-        } 
-        
-        internal override void Initialize()
+        }
+
+        protected override void Awake()
         {
-            base.Initialize();
+            base.Awake();
             _canvas = GetComponent<Canvas>();
             InitializeBlockable();
         }
