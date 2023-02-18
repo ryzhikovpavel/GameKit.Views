@@ -7,6 +7,7 @@ namespace GameKit.Views.Animators
     [RequireComponent(typeof(Animator))]
     internal class MecanimViewAnimator : MonoBehaviour, IViewAnimator
     {
+        private const string AnimationDefaultName = "default";
         private enum Type
         {
             Animation,
@@ -86,11 +87,41 @@ namespace GameKit.Views.Animators
                 animator.ResetTrigger(animationHideName);
             }
         }
+        
+#if UNITY_EDITOR
+        [ContextMenu("CreateAnimator")]
+        private void CreateAnimator()
+        {
+            // Creates the controller
+            var path = UnityEditor.EditorUtility.SaveFilePanel("Create animator controller", Application.dataPath, name, "controller");
+            if (string.IsNullOrEmpty(path)) return;
+            var controller = UnityEditor.Animations.AnimatorController.CreateAnimatorControllerAtPath(path.Remove(0, Application.dataPath.Length - 6));
+            
+            var animationDefault = new AnimationClip() { name = AnimationDefaultName };
+            var animationShow = new AnimationClip() { name = animationShowName };
+            var animationHide = new AnimationClip() { name = animationHideName };
+            
+            UnityEditor.AssetDatabase.AddObjectToAsset( animationDefault, controller );
+            UnityEditor.AssetDatabase.AddObjectToAsset( animationShow, controller );
+            UnityEditor.AssetDatabase.AddObjectToAsset( animationHide, controller );
+            
+            controller.AddMotion(animationDefault);
+            controller.AddMotion(animationShow);
+            controller.AddMotion(animationHide);
+
+            GetComponent<Animator>().runtimeAnimatorController = controller;
+            
+            UnityEditor.AssetDatabase.SaveAssets();
+            UnityEditor.AssetDatabase.Refresh();
+        }
 
         private void Reset()
         {
             animationShowName = "show";
             animationHideName = "hide";
+            if (GetComponent<CanvasGroup>() == false)
+                gameObject.AddComponent<CanvasGroup>();
         }
+#endif
     }
 }
